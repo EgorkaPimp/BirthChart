@@ -1,0 +1,1 @@
+from bot import handler # noqa: F401

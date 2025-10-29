@@ -4,7 +4,7 @@ from models.log_class import LogCLassAll
 from models.start_class import StartBot
 
 
-# from app import *  # noqa: F403
+from bot import *  # noqa: F403
     
 async def main():
     LogCLassAll().info("Start logging")
