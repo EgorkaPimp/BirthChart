@@ -1,6 +1,5 @@
 import swisseph as swe
-from city_coordinates import GeoLocator
-import asyncio
+
 
 ZODIAC_SIGNS = ["Овен", "Телец", "Близнецы", "Рак",
                 "Лев", "Дева", "Весы", "Скорпион",
@@ -68,48 +67,25 @@ async def natal_chart(year: int, month: int, day: int, hour: int, minute: int,
     
     return chart
 
-async def report_chart(chart: dict):
+async def report_chart(chart: dict) -> list:
+    report = []
     for key, value in chart.items():
         if key == 'houses':
             for i, cusp in enumerate(value, start=1):
                 sign, deg = await degree_to_sign(cusp)
-                print(f"Дом {i}: {cusp:.6f}° ({deg:.2f}° {sign})")
+                report.append(f"Дом {i}: {cusp:.6f}° ({deg:.2f}° {sign})")
         elif key in ['ascendant', 'midheaven']:
-            print(f"{NAME_PLANET[key]}: {value['longitude']:.6f}° "
+            report.append(f"{NAME_PLANET[key]}: {value['longitude']:.6f}° "
                   f"({value['deg_in_sign']:.2f}° {value['sign']})")
         else:
-            print(f"{NAME_PLANET[key]}: {value['longitude']:.6f}° ({value['deg_in_sign']:.2f}° {value['sign']}), "
+            report.append(f"{NAME_PLANET[key]}: {value['longitude']:.6f}° ({value['deg_in_sign']:.2f}° {value['sign']}), "
                   f"Lat={value['latitude']:.6f}°, Dist={value['distance_au']:.6f} AU")
+    return report
     
 
 
-async def test(city:str, data_birth:str, time_birth: str):
-    locator = GeoLocator()
-    coords = await locator.get_coordinates(city)
-    data = data_birth.split(" ")
-    time = time_birth.split(" ")
-    
-    hour = int(time[0])
-    minute = int(time[1])
-    
-    timezone = await locator.get_utc_offset(city_name=city)
-    
-    year = int(data[2])
-    month = int(data[1])
-    day = int(data[0])
-    
-    latitude = coords[0]
-    longitude = coords[1]
-    
+async def start(year: int, month:int, day:int, hour:int, minute:int, 
+                latitude:float, longitude:float, timezone:int) -> list:
     chart = await natal_chart(year, month, day, hour, minute, latitude, longitude, timezone)
-    await report_chart(chart=chart)
-    
-    
- 
-if __name__ == "__main__":
-    city = "Дондон"
-    data_birth = "14 8 1996"
-    time_birth = "15 30"
-    asyncio.run(test(city=city, 
-                     data_birth=data_birth, 
-                     time_birth=time_birth))
+    report = await report_chart(chart=chart)
+    return report
