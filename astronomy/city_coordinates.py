@@ -42,13 +42,12 @@ class GeoLocator:
         tz_name = self.tzf.timezone_at(lat=lat, lng=lon)
         if not tz_name:
             return None
-
         tz = pytz.timezone(tz_name)
-        now_utc = datetime.now(timezone.utc)        
-        now_local = now_utc.astimezone(tz)           
+        now_utc = datetime.now(timezone.utc)      
+        now_local = now_utc.astimezone(tz)         
         offset = now_local.utcoffset()               
         if not offset:
-            return None
+            return 0
 
         total_seconds = offset.total_seconds()
         hours = int(total_seconds // 3600)

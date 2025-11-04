@@ -3,7 +3,7 @@ import asyncio
 
 async def test():
     locator = GeoLocator()
-    city = "Пенза"
+    city = "Дондон"
     coords = await locator.get_coordinates(city)
     time_zona = await locator.get_utc_offset(city_name=city)
     if coords:
@@ -13,6 +13,4 @@ async def test():
 
 
 if __name__ == "__main__":
-    x = {"x": 1}
-    print(x["x"])
     asyncio.run(test())

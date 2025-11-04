@@ -107,7 +107,7 @@ async def test(city:str, data_birth:str, time_birth: str):
     
  
 if __name__ == "__main__":
-    city = "Пенза"
+    city = "Дондон"
     data_birth = "14 8 1996"
     time_birth = "15 30"
     asyncio.run(test(city=city, 
