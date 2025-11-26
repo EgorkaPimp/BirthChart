@@ -58,8 +58,9 @@ async def waiting_data(message: types.Message, state: FSMContext):
     time_zone = int(data_city.get('time_zone'))
     latitude = float(data_city.get('coords')[0])
     longitude = float(data_city.get('coords')[0])
+    place = data_city.get('city')
     natal = await start(year=year, month=month, day=day, hour=hour, minute=minute, 
-                        timezone=time_zone, latitude=latitude, longitude=longitude)
+                        timezone=time_zone, latitude=latitude, longitude=longitude, place=place)
     await state.clear()
     
     text_message = ""

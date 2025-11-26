@@ -1,4 +1,5 @@
 import swisseph as swe
+from astronomy.filling_YAML import create_yaml
 
 
 ZODIAC_SIGNS = ["Овен", "Телец", "Близнецы", "Рак",
@@ -85,7 +86,8 @@ async def report_chart(chart: dict) -> list:
 
 
 async def start(year: int, month:int, day:int, hour:int, minute:int, 
-                latitude:float, longitude:float, timezone:int) -> list:
+                latitude:float, longitude:float, timezone:int, place: str) -> list:
     chart = await natal_chart(year, month, day, hour, minute, latitude, longitude, timezone)
     report = await report_chart(chart=chart)
+    await create_yaml(chart, year, month, day, hour, minute, place)
     return report
