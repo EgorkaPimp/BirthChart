@@ -10,6 +10,7 @@ image = Images.test_image()
 @RouterStore.my_router.message(Command("start"))
 async def cmd_start(message: types.Message, command: CommandObject):
     LogCLassAll().info('Write command: Start')
+    await message.answer('test')
     await message.answer_photo(photo=image,
                             caption="Bla bla bla",
                             reply_markup = app_start())
